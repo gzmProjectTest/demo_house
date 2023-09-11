@@ -1,3 +1,11 @@
+<!--
+ * @Author: 郭志明 zhiming.guo@zingbiz.com
+ * @Date: 2023-05-12 17:11:38
+ * @LastEditors: 郭志明 zhiming.guo@zingbiz.com
+ * @LastEditTime: 2023-08-24 17:55:50
+ * @FilePath: /gzm_house/FrontPage/src/views/sys/user/profile/components/UserInfo.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <el-form ref="form" :model="user" :rules="rules" label-width="80px">
     <el-form-item label="用户昵称" prop="nickName">
@@ -36,7 +44,7 @@
         // 表单校验
         rules: {
           nickName: [
-            { required: true, message: "用户昵称不能为空", trigger: "blur" }
+            { required: true, message: "用户昵称不能为空", trigger: [change, blur] }
           ],
           email: [
             { required: true, message: "邮箱地址不能为空", trigger: "blur" },

@@ -144,7 +144,7 @@
         // 执行上传服务
         cos.putObject({
           // 你的存储桶名称
-          Bucket: 'xiliu-1259663924',
+          Bucket: 'gzm-1259663924',
           // 你的存储桶地址
           Region: 'ap-guangzhou',
           // key加上路径写法可以生成文件夹

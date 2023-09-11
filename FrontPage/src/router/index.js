@@ -49,64 +49,10 @@ export const constantRoutes = [
     redirect: 'noredirect',
     children: [
       {
-        path: 'profile',
-        component: () => import('@/views/sys/user/profile/index'),
-        name: 'Profile',
-        meta: { title: '个人中心', icon: 'user', }
-      },
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
         path: 'search',
         component: () => import('@/views/sys/user/index'),
         name: 'search',
         meta: { title: '筛选搜索', icon: 'user', }
-      },
-    ]
-  },
-  //  缓存页面
-  {
-    path: '/cache',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'cacheList',
-        component: () => import('@/views/monitor/cache/list.vue'),
-        name: 'cacheList',
-        meta: { title: '缓存列表', icon: 'user', }
-      },
-    ]
-  },
-  {
-    path: '/cache',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'basicInformation',
-        component: () => import('@/views/monitor/cache/index.vue'),
-        name: 'basicInformation',
-        meta: { title: '基本信息', icon: 'user', }
-      },
-    ]
-  },
-  // 房屋信息
-  {
-    path: '/single',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'HireInfo',
-        component: () => import('@/views/house/single/components/HireInfo.vue'),
-        name: 'HireInfo',
-        meta: { title: '房屋信息', icon: 'user', }
       },
     ]
   },
@@ -119,21 +65,20 @@ export const constantRoutes = [
         path: 'houseSearch',
         component: () => import('@/views/house/single/index.vue'),
         name: 'houseSearch',
-        meta: { title: '房屋筛选', icon: 'user', }
+        meta: { title: '房屋列表', icon: 'user', }
       },
     ]
   },
-  //用户授权
   {
-    path: '/role',
+    path: '/single',
     component: Layout,
     redirect: 'noredirect',
     children: [
       {
-        path: 'authUser',
-        component: () => import('@/views/sys/role/authUser.vue'),
-        name: 'authUser',
-        meta: { title: '用户授权', icon: 'user', }
+        path: 'forRent',
+        component: () => import('@/views/house/single/for-rent/index.vue'),
+        name: 'forRent',
+        meta: { title: '租赁信息', icon: 'user', }
       },
     ]
   },
@@ -151,34 +96,6 @@ export const constantRoutes = [
       },
     ]
   },
-  // 授权用户
-  {
-    path: '/role',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'selectUser',
-        component: () => import('@/views/sys/role/selectUser.vue'),
-        name: 'selectUser',
-        meta: { title: '授权用户', icon: 'user', }
-      },
-    ]
-  },
-  // 菜单列表
-  {
-    path: '/menu',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/sys/menu/index.vue'),
-        name: 'index',
-        meta: { title: '菜单列表', icon: 'user', }
-      },
-    ]
-  },
   // 租户列表
   {
     path: '/tenant',
@@ -193,20 +110,33 @@ export const constantRoutes = [
       },
     ]
   },
-  // 职务管理/ 员工管理
   {
-    path: '/staff',
+    path: '/user',
     component: Layout,
     redirect: 'noredirect',
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/services/staff/index.vue'),
-        name: 'index',
-        meta: { title: '职务管理/员工管理', icon: 'user', }
+        path: 'profile',
+        component: () => import('@/views/sys/user/profile/index'),
+        name: 'Profile',
+        meta: { title: '个人中心', icon: 'user', }
       },
     ]
   },
+  // 职务管理/ 员工管理
+  // {
+  //   path: '/staff',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/services/staff/index.vue'),
+  //       name: 'index',
+  //       meta: { title: '职务管理/员工管理', icon: 'user', }
+  //     },
+  //   ]
+  // },
 ]
 
 // 动态路由，基于用户权限动态去加载

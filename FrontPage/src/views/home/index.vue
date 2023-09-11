@@ -9,7 +9,6 @@
 
       <!-- 团队介绍 -->
       <el-col :md="12" :lg="12" class="card-panel__col">
-        <Team />
       </el-col>
     </el-row>
 
@@ -94,7 +93,6 @@ import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png
 import RadarChart from './components/RadarChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
-import Team from './components/Team'
 import Project from './components/Project'
 
 export default {
@@ -103,7 +101,6 @@ export default {
     RadarChart,
     PieChart,
     BarChart,
-    Team,
     Project
   },
   computed: {

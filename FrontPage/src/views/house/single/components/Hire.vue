@@ -1,5 +1,13 @@
+<!--
+ * @Author: 郭志明 zhiming.guo@zingbiz.com
+ * @Date: 2023-05-12 17:11:38
+ * @LastEditors: 郭志明 zhiming.guo@zingbiz.com
+ * @LastEditTime: 2023-08-31 15:41:00
+ * @FilePath: /gzm_house/FrontPage/src/views/house/single/components/Hire.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
-    <el-drawer :visible.sync="dialog":with-header=false style="position: absolute"direction="rtl" :size="'80%'" >
+    <el-drawer :visible.sync="dialog" :with-header=false style="position: absolute"direction="rtl" :size="'80%'" >
       <div class="modal">
         <div class="modal-body">
           <el-row>
@@ -10,22 +18,53 @@
             </el-steps>
           </el-row>
 
-          <hire-info v-show="active == 0" v-model="hireInfo" @next="next"/>
+          <hire-info
+            v-show="active == 0" 
+            v-model="hireInfo"
+            @prev="prev"
+            @next="next"/>
+
+          <BillingDetails
+            v-show="active == 1"
+            v-model="hireInfo"
+            @prev="prev"
+            @next="next"
+          >
+          </BillingDetails>
+
+          <house-signature
+            v-show="active == 2"
+            ref="signature"
+            :placeholder="'点击此区域进行签名'"
+            @change="saveSignature"
+            @signatureShow="handleConfirm"
+            @signatureClear="signatureClear"
+            :containerStyle="containerStyle"
+            @confirmSigning="confirmSigning"
+          ></house-signature>
         </div>
+
       </div>
     </el-drawer>
 </template>
 <script>
   import HireInfo from "./HireInfo"
+  import BillingDetails from './billingDetails'
+  import HouseSignature from '../signature-pc/index.vue'
   export default {
     components: {
-      HireInfo
+      HireInfo,
+      BillingDetails,
+      HouseSignature
     },
     data() {
       return {
         dialog: false,
         active: 0,
         isEdit: false,
+        containerStyle: {
+          height: '340px'
+        },
         hireInfo: {
           // 承租人信息
           lessee: {
@@ -46,6 +85,7 @@
       }
     },
     created(){
+      console.log('Hire-page', this.hireInfo)
     },
     methods: {
       show(val){
@@ -62,7 +102,7 @@
           this.active--;
         }
       },
-      next() {
+      next(value) {
         if (this.active < 3) {
           this.active++;
         }
@@ -75,6 +115,20 @@
         }).then(() => {
 
         })
+      },
+      handleConfirm(val) {
+        console.log('117', val)
+				// this.$emit('confirm', this.item.type, val)
+			},
+			saveSignature(val) {
+        console.log(121, val);
+        this.signatureSrc = val
+			},
+      signatureClear() {
+        console.log('清空')
+      },
+      confirmSigning() {
+        this.dialog = false;
       }
     }
   }

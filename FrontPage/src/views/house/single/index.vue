@@ -35,7 +35,7 @@
               <el-form-item label="状态" prop="state">
                 <el-select v-model="queryParams.state" placeholder="全部状态" clearable>
                   <el-option
-                    v-for="dict in dict.type.house_state"
+                    v-for="dict in dictTypeHouseState"
                     :key="dict.value"
                     :label="dict.label"
                     :value="dict.value"
@@ -57,7 +57,7 @@
                 </el-tooltip>
               </el-form-item>
 
-              <el-form-item>
+              <!-- <el-form-item>
                 <el-button icon="el-icon-d-arrow-right" size="mini" @click="showMore()">{{ !showMoreSearch ? '更多筛选' :'隐藏更多'}}</el-button>
               </el-form-item>
               <div v-show="showMoreSearch">
@@ -77,7 +77,7 @@
                                :value="item.apartmentId"/>
                   </el-select>
                 </el-form-item>
-              </div>
+              </div> -->
             </el-form>
 
           </div>
@@ -86,7 +86,7 @@
 
       <div style="clear: both; width: 100%; height: 20px;"></div>
       <!--数据区-->
-      <div style="height: 393px; overflow: auto;">
+      <div style="height: 593px; overflow: auto;">
         <el-card shadow="never" v-for="(item,index) in centraliz">
           <div class="card_title" >
             <div class="card_title_left title_c_1">{{ item.name }}</div>
@@ -149,7 +149,7 @@
                         <button type="button" class="el-button el-button--info el-button--small is-plain"><span>历史</span></button>
                         <button type="button" class="el-button el-button--info el-button--small is-plain"><span>房间管理</span></button>
                       </div>
-                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多 <i class="el-icon-caret-right"></i></div>
+                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多1 <i class="el-icon-caret-right"></i></div>
                     </el-popover>
                   </div>
                 </div>
@@ -185,7 +185,7 @@
                         <button  type="button" class="el-button el-button--info el-button--small is-plain"><span>换房</span></button>
                         <button  type="button" class="el-button el-button--info el-button--small is-plain"><span>历史</span></button>
                       </div>
-                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多 <i class="el-icon-caret-right"></i></div>
+                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多2 <i class="el-icon-caret-right"></i></div>
                     </el-popover>
                   </div>
                 </div>
@@ -225,7 +225,7 @@
                         <button  type="button" class="el-button el-button--info el-button--small is-plain"><span>历史</span></button>
                         <button  type="button" class="el-button el-button--info el-button--small is-plain"><span>删除</span></button>
                       </div>
-                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多 <i class="el-icon-caret-right"></i></div>
+                      <div style="cursor: pointer;" slot="reference" @click="handleMoreInfo(item2)">更多3 <i class="el-icon-caret-right"></i></div>
                     </el-popover>
                   </div>
                 </div>
@@ -262,10 +262,6 @@
     <hire ref="hire"></hire>
     <!--下定-->
     <room-advance ref="roomAdvance"></room-advance>
-
-    <!--更多-->
-
-
   </div>
 </template>
 <script>
@@ -291,6 +287,7 @@
               return item;
             }
             const roomList = item.roomList.filter((child) => child.floor == this.filterValue.floor);
+            
             const filteredItem = { ...item, roomList };
             return filteredItem;
           }).filter((item) => item);
@@ -308,7 +305,6 @@
         showMoreSearch: false,
         // 显示右侧栏
         showRight: true,
-        dialog: false,
         // 总条数
         total: 0,
         // 表格数据
@@ -335,6 +331,11 @@
         // 表单校验
         rules: {
         },
+        dictTypeHouseState: [
+          { label: '空置', value: '1'},
+          { label: '已租', value: '2'},
+          { label: '预定', value: '3'},
+        ]
 
       };
     },
@@ -350,6 +351,11 @@
         this.loading = true;
         listCentralize(this.queryParams).then(response => {
           this.centralizeList = response.data;
+          const { roomList } = this.centralizeList[0]
+          if (this.$route.query.add === '1') {
+            const obj = { state: '1' , houseNo: 'ZF000005', unitType: '5', money: '2000', vacantDay: '0'}
+            roomList.push(obj)
+          }
           this.total = response.total;
           this.loading = false;
         });
@@ -429,7 +435,6 @@
       },
       handleHire(val) {
         this.$refs.hire.show(val);
-        //this.dialog = true;
       },
       handleClose(done) {
         if (this.loading) {
@@ -450,7 +455,6 @@
       },
       cancelForm() {
         this.loading = false;
-        this.dialog = false;
         clearTimeout(this.timer);
       },
       /** 下定操作 */
@@ -458,9 +462,15 @@
         this.$refs.roomAdvance.show(val);
       },
       handleMoreInfo(val) {
-        getCentralizeInfo(val.houseId,val.state).then(res =>{
-          this.centralizeInfo = res.data;
-        })
+        // getCentralizeInfo(val.houseId,val.state).then(res =>{
+        //   this.centralizeInfo = res.data;
+        // })
+        this.centralizeInfo = [
+          {
+            title: '房屋1',
+            item: ['房屋设备齐', '月末有保洁', '有2个室友']
+          }
+        ]
       },
       handleFilterFloor(id,floor) {
         this.filterValue.id = id;

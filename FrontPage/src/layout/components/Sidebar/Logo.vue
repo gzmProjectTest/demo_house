@@ -2,18 +2,18 @@
  * @Author: 郭志明 zhiming.guo@zingbiz.com
  * @Date: 2023-05-12 17:11:38
  * @LastEditors: 郭志明 zhiming.guo@zingbiz.com
- * @LastEditTime: 2023-08-18 20:02:22
+ * @LastEditTime: 2023-09-10 00:39:08
  * @FilePath: /gzm_house/FrontPage/src/layout/components/Sidebar/Logo.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/" >
         <img v-if="logo" src="../../../assets/images/logo.webp" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
+      <router-link v-else key="expand" class="sidebar-logo-link" to="/" style="display: flex;justify-content: center;align-items: center;">
         <img v-if="logo" src="../../../assets/images/logo.webp" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       title: '管理后台',
-      logo: 'https://s1.ax1x.com/2023/03/28/pp65a5V.png'
+      logo: 'logo'
     }
   }
 }
@@ -64,8 +64,8 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 50px;
+      height: 50px;
       vertical-align: middle;
       margin-right: 12px;
     }

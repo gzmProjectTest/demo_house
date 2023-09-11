@@ -326,6 +326,7 @@
       getList() {
         this.listLoading = true;
         fetchList(this.queryParams).then(response => {
+          console.log('response', response)
           this.listLoading = false;
           this.list = response.data;
           this.total = response.pageInfo.totalCount;

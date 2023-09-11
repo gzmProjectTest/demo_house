@@ -8,6 +8,48 @@
       </el-col>
     </el-row>
     <el-row class="fangwuxinxi">
+      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
+        <el-form-item label="品牌" prop="brandId">
+          <el-select v-model="queryParams.brandId" placeholder="全部品牌">
+            <el-option v-for="item in brands"
+                        :key="item.brandId"
+                        :label="item.brandName"
+                        :value="item.brandId"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="项目" prop="projectId">
+          <el-select v-model="queryParams.projectId" placeholder="全部项目">
+            <el-option v-for="item in projects"
+                        :key="item.classifyId"
+                        :label="item.classifyName"
+                        :value="item.classifyId"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="公寓" prop="apartmentId">
+          <el-select v-model="queryParams.apartmentId" placeholder="全部公寓">
+            <el-option v-for="item in apartments"
+                        :key="item.apartmentId"
+                        :label="item.apartmentName"
+                        :value="item.apartmentId"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" prop="state">
+          <el-select v-model="queryParams.state" placeholder="全部状态" clearable>
+            <el-option
+              v-for="dict in dictTypeHouseState"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="门店" prop="store">
+          <el-input v-model="queryParams.store" class="input-width" placeholder="请输入房号" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="房间号" prop="houseNo">
+          <el-input v-model="queryParams.houseNo" class="input-width" placeholder="请输入房号" clearable></el-input>
+        </el-form-item>
+      </el-form>
       <el-col :span="6">
         <div>品牌 : 与之城市青年之家</div>
       </el-col>
@@ -130,9 +172,6 @@
               添加紧急联系人
             </el-button>
           </el-form-item>
-          <AddIdImg ref="addIdImg" @confirmImg="confirmImg"></AddIdImg>
-          <AddCohabit ref="addCohabit" @confirmImg="confirmCohabit"></AddCohabit>
-          <AddContact ref="addContact" @confirmContact="confirmContact"></AddContact>
         </el-col>
       </el-row>
       <el-row class="bor-l">
@@ -276,24 +315,33 @@
   </div>
 </template>
 <script>
-  import AddCohabit  from "./AddCohabit";
-  import AddContact from "./AddContact";
-  import AddIdImg from "./AddIdImg";
+  import { getUserProjectList,getUserApartmentList } from "@/api/house/apartment";
   export default {
-    components: {
-      AddContact,AddIdImg,AddCohabit
-    },
     name: "HireInfo",
-    dicts: ['house_type','house_select_num','house_hire_status','house_deposit_num','sys_id_type'],
-    props: {
-      value: Object,
-      isEdit: {
-        type: Boolean,
-        default: false
-      },
-    },
     data() {
       return {
+        value: {
+          // 承租人信息
+          lessee: {
+            lesseeType: 'gr',
+          },
+          // 租约信息
+          contract: {
+            lesseeType: 'cz',
+            feeType: '1',
+            feeDay: 1,
+            payType: '1',
+            lateFeePer: 0,
+            lateFeeDay: 0,
+            feeMethod: '1',
+            contractStartDate: this.getCurrentDate(),
+          }
+        },
+        queryParams: {
+          pageNum: 1,
+          pageSize: 10,
+          store: '', // 门店
+        },
         idTypeOption: [
           {
             label: '居民身份证',
@@ -315,6 +363,11 @@
             label: '护照',
             value: '5'
           }
+        ],
+        dictTypeHouseState: [
+          { label: '空置', value: '1'},
+          { label: '已租', value: '2'},
+          { label: '预定', value: '3'},
         ],
         contractOption: [
           { label: '压一付三', value: '1'},
@@ -347,13 +400,34 @@
           'contract.feeDay': [{required: true, message: '请填写收租日', trigger: 'blur'}],
           'contract.lateFeePer': [{required: true, message: '请填写滞纳金', trigger: 'blur'}],
           'contract.lateFeeDay': [{required: true, message: '请填写超过应收日', trigger: 'blur'}],
-        }
+        },
+        brands: [],
+        projects: [],
+        apartments: [],
       }
     },
     created() {
-      console.log('value: ', this.value);
+      this.getUserProjectList();
+      this.getUserApartmentList();
     },
     methods: {
+      /** 获得项目列表 */
+      getUserProjectList() {
+        getUserProjectList().then(response => {
+          this.brands = response.data.brands;
+          this.projects = response.data.projects;
+        })
+      },
+      /** 获得公寓列表 */
+      getUserApartmentList() {
+        getUserApartmentList().then(response => {
+          this.apartments = response.data
+        })
+      },
+      getCurrentDate() {
+        const date = new Date();
+        return date;
+      },
       handleNext(){
         this.$emit('next', this.value);
 

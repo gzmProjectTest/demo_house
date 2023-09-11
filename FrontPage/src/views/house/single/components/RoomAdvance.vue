@@ -163,15 +163,15 @@
       },
       /** 确认 */
       submitEditForm() {
-        this.$refs["form"].validate(valid => {
-          if (valid) {
-            saveAdvance(this.form).then(response => {
-              this.$modal.msgSuccess("下定成功");
-              this.open = false;
-              this.$parent.getList();
-            });
-          }
-        });
+        this.$modal.msgSuccess("下定成功");
+        this.open = false;
+        // this.$refs["form"].validate(valid => {
+        //   if (valid) {
+        //     saveAdvance(this.form).then(response => {
+              // this.$parent.getList();
+            // });
+          // }
+        // });
       },
       cancel() {
         this.open = false;

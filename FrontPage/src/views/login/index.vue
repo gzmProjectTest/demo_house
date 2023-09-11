@@ -2,14 +2,7 @@
   <div class="view-box">
     <!--背景盒子-->
     <div class="bg-fox">
-      <img src="@/assets/images/login-bg.png" style="position: absolute; bottom: 8vh; left: 8vw; width: 450px;">
-      <div style="width: 100%; height: 100%">
-        <!-- 三角形-->
-        <div class="sjx" style="position: absolute; top: 0vh; left: 25vw; transform: rotate(70deg) scale(0.8, 0.8);" />
-        <div class="sjx" style="position: absolute; top: 0vh; right: 15vw; transform: rotate(60deg) scale(0.5, 0.5);" />
-        <div class="sjx" style="position: absolute; top: 25vh; right: -2vw; transform: rotate(40deg);" />
-        <div class="sjx" style="position: absolute; bottom: 10vh; right: 20vw; transform: rotate(10deg) scale(1.5, 1.5);" />
-      </div>
+      <img src="@/assets/images/page.webp" style="width:100%;height: 100%;">
     </div>
     <!--内容盒子-->
     <div class="for-box">
@@ -18,7 +11,7 @@
           <!-- 表单盒子 -->
           <div class="from-box from-box-show">
             <h3 class="from-title">
-              <span>*****</span>
+              <span>房屋租赁管理系统</span>
             </h3>
             <el-form size="small" label-position="left" label-width="0px" ref="loginForm" :model="loginForm" :rules="loginRules">
               <el-form-item prop="userName">
@@ -118,12 +111,6 @@ export default {
       self.loading = true;
       // 因为使用的是多个 js 文件，所以dispatch 调用时需要增加文件前缀
       // this.$store.dispatch('user/hahahahah', '32323')
-      console.log('store---->', this.$store)
-      // const obj = {
-      //   msg: '登录成功',
-      //   data: []
-      // }
-      // 
       self.$store.dispatch('user/login', self.loginForm).then(() => {
           setTimeout(() => {
             self.message('success', '登录成功');
@@ -199,7 +186,7 @@ export default {
 }
 
 /* 表单 */
-.from-box{padding: 45px 50px 25px; background-color: #e2effc; border: 1px #e5e5e5 solid;}
+.from-box{padding: 45px 50px 25px; background: #8ab8db9e;}
 .from-box{ border-radius: 1px; /*box-shadow: 1px 1px 2px #666;*/}
 .from-title{font-size: 24px; color: #000; margin-bottom: 30px; text-align: center; position: relative; left: -15px;}
 

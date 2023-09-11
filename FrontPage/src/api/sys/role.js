@@ -89,32 +89,6 @@ export function unallocatedUserList(query) {
   })
 }
 
-// 取消用户授权角色
-export function authUserCancel(data) {
-  return request({
-    url: '/ucenter/role/authUser/cancel',
-    method: 'put',
-    data: data
-  })
-}
-
-// 批量取消用户授权角色
-export function authUserCancelAll(data) {
-  return request({
-    url: '/ucenter/role/authUser/cancelAll',
-    method: 'put',
-    params: data
-  })
-}
-
-// 授权用户选择
-export function authUserSelectAll(data) {
-  return request({
-    url: '/ucenter/role/authUser/selectAll',
-    method: 'put',
-    params: data
-  })
-}
 
 
 

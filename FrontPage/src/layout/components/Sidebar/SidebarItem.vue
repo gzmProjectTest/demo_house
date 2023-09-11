@@ -2,7 +2,7 @@
  * @Author: 郭志明 zhiming.guo@zingbiz.com
  * @Date: 2023-05-12 17:11:38
  * @LastEditors: 郭志明 zhiming.guo@zingbiz.com
- * @LastEditTime: 2023-08-24 15:51:13
+ * @LastEditTime: 2023-09-10 00:25:04
  * @FilePath: /gzm_house/FrontPage/src/layout/components/Sidebar/SidebarItem.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -62,14 +62,11 @@ export default {
     }
   },
   data() {
-    // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
-    // TODO: refactor with render function
     this.onlyOneChild = null
     return {}
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      // debugger
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false

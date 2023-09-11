@@ -14,7 +14,7 @@
           <el-form-item label="租户状态" prop="tenantStatus">
             <el-select v-model="queryParams.tenantStatus" placeholder="请选择租户状态" clearable>
               <el-option
-                v-for="dict in dict.type.sys_tenant_status"
+                v-for="dict in sysTenantStatus"
                 :key="dict.value"
                 :label="dict.label"
                 :value="dict.value"
@@ -53,33 +53,26 @@
     <!--数据列表区-->
     <div class="table-container">
       <el-table v-loading="loading" :data="tenantList" @selection-change="handleSelectionChange" border>
-        <el-table-column prop="tenantLogo" label="logo" align="center" >
-          <template slot-scope="scope">
-            <img :src="scope.row.tenantLogo"/>
-          </template>
-        </el-table-column>
         <el-table-column label="租户名称" align="center" prop="tenantName" />
         <el-table-column label="类型" align="center" prop="tenantType" >
-          <template slot-scope="scope">
-            <dict-tag :options="dict.type.sys_tenant_type" :value="scope.row.tenantType"/>
-          </template>
         </el-table-column>
         <el-table-column label="管理员账号" align="center" prop="userName" />
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <el-switch
-              @change="handleStatusChange(scope.$index, scope.row)"
               active-value="0"
               inactive-value="1"
               v-model="scope.row.tenantStatus">
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="租户套餐" align="center" prop="packageId">
+        <el-table-column label="租户套餐" align="center" prop="packageName">
+        </el-table-column>
+        <!-- <el-table-column label="租户套餐" align="center" prop="packageId">
           <template slot-scope="scope">
             <el-tag>{{ getPackageName(scope.row.packageId)}}</el-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="租赁结束时间" align="center">
           <template slot-scope="scope">
             <span>{{ dateTimeFormat(scope.row.tenantTime) }}</span>
@@ -93,14 +86,12 @@
               type="text"
               icon="el-icon-edit"
               @click="handleUpdate(scope.row)"
-              v-hasPermi="['platform:tenant:edit']"
             >修改</el-button>
             <el-button
               size="mini"
               type="text"
               icon="el-icon-delete"
               @click="handleDelete(scope.row)"
-              v-hasPermi="['platform:tenant:remove']"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -126,7 +117,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="Logo" prop="logo">
-              <single-avatar-upload v-model="form.tenantLogo"style="width: 300px;display: inline-block;margin-left: 10px"></single-avatar-upload>
+              <single-avatar-upload v-model="form.tenantLogo" style="width: 300px;display: inline-block;margin-left: 10px"></single-avatar-upload>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -237,7 +228,7 @@
 <script>
   import SingleAvatarUpload from '@/components/Upload/singleAvatarUpload';
   import { listTenant, getTenant, delTenant, addTenant, updateTenant } from "@/api/platform/tenant";
-  import {getTenantPackageList} from "@/api/platform/tenantpackage";
+  import { getTenantPackageList } from "@/api/platform/tenantpackage";
 
   export default {
     name: "Tenant",
@@ -245,6 +236,12 @@
     components: { SingleAvatarUpload },
     data() {
       return {
+          sysTenantStatus: [
+            { label: '已续租', value: '1'},
+            { label: '未续租', value: '2'},
+            { label: '已到期', value: '3'},
+            { label: '未到期', value: '4'},
+          ],
           dialogFull:false,
           // 遮罩层
           loading: true,
@@ -344,6 +341,7 @@
       getList() {
         this.loading = true;
         listTenant(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+          console.log('查询租户管理列表', response)
           this.tenantList = response.rows;
           this.total = response.total;
           this.loading = false;
